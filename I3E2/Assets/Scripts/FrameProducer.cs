@@ -50,7 +50,7 @@ public class FrameProducer : MonoBehaviour
     {
         for(int i=0; i < frames.Length; i++)
         {
-            if(-5 >= frames[i].transform.position.x)
+            if(-10 >= frames[i].transform.position.x)
             {
                 for(int q = 0; q <frames.Length; q++)
                 {
@@ -69,8 +69,6 @@ public class FrameProducer : MonoBehaviour
                 frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
                 frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = RAImg[RAIdx[i]];
                 frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
-
-                // frames[i].sprite = groundImg[Random.Range(0, groundImg.Length)];
             }
         }
 
