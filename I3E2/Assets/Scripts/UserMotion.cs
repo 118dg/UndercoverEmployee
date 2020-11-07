@@ -19,10 +19,10 @@ public class UserMotion : MonoBehaviour
     public Sprite[] leftLegSprite = new Sprite[3];
     public Sprite[] rightLegSprite = new Sprite[3];
 
-    public int leftArmIdx;
-    public int rightArmIdx;
-    public int leftLegIdx;
-    public int rightLegIdx;
+    static public int leftArmIdx;
+    static public int rightArmIdx;
+    static public int leftLegIdx;
+    static public int rightLegIdx;
 
     // Start is called before the first frame update
     void Start()

@@ -1,23 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class FrameProducer : MonoBehaviour
 {
+    public Text moneytext;
     public GameObject[] frames;
-    // public Sprite[] groundImg;
+    public GameObject character;
 
     public Sprite[] LAImg = new Sprite[3];
     public Sprite[] RAImg = new Sprite[3];
     public Sprite[] LLImg = new Sprite[3];
     public Sprite[] RLImg = new Sprite[3];
 
+    public Sprite failBG;
+
     public int[] LAIdx = new int [7];
     public int[] RAIdx = new int [7];
     public int[] LLIdx = new int [7];
     public int[] RLIdx = new int [7];
+
+    public bool[] flags = new bool[7];
 
     public float speed;
 
@@ -25,18 +30,23 @@ public class FrameProducer : MonoBehaviour
 
     public int level = 0;   // 0 -> 5 matches(10), 1 -> 5 ~ 20 matches(7), 2 -> 20 ~~ matches(4);
     public int matches = 0;
+    public int money;
 
 
     // Start is called before the first frame update
     void Start()
     {
         temp = frames[0];
-        for(int i=0;i<frames.Length; i++){
+        money = 1800;
+        moneytext.text = String.Format("{0:C}", money) + " 만원";
+
+        for (int i=0;i<frames.Length; i++){
+            flags[i] = false;
             
-            LAIdx[i] = Random.Range(0, LAImg.Length);
-            RAIdx[i] = Random.Range(0, LAImg.Length);
-            LLIdx[i] = Random.Range(0, LAImg.Length);
-            RLIdx[i] = Random.Range(0, LAImg.Length);
+            LAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+            RAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+            LLIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+            RLIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
 
             frames[i].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = LAImg[LAIdx[i]];
             frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
@@ -44,7 +54,7 @@ public class FrameProducer : MonoBehaviour
             frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
 
             if(i!=0){
-                frames[i].transform.position = new Vector2(temp.transform.position.x + 10, temp.transform.position.y);
+                frames[i].transform.position = new Vector2(frames[i-1].transform.position.x + 10, temp.transform.position.y);
             }
         }
     }
@@ -62,6 +72,7 @@ public class FrameProducer : MonoBehaviour
                     if (temp.transform.position.x < frames[q].transform.position.x)
                         temp = frames[q];
                 }
+
                 if(level == 0){   // level에 따라서 등장 간격
                     frames[i].transform.position = new Vector2(temp.transform.position.x + 10, temp.transform.position.y);
                 }else if(level == 1){
@@ -70,22 +81,47 @@ public class FrameProducer : MonoBehaviour
                     frames[i].transform.position = new Vector2(temp.transform.position.x + 4, temp.transform.position.y);
                 }
 
-                LAIdx[i] = Random.Range(0, LAImg.Length);
-                RAIdx[i] = Random.Range(0, LAImg.Length);
-                LLIdx[i] = Random.Range(0, LAImg.Length);
-                RLIdx[i] = Random.Range(0, LAImg.Length);
+                flags[i] = false;
+                frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1 ,1);
+
+                LAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+                RAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+                LLIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
+                RLIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
 
                 frames[i].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = LAImg[LAIdx[i]];
                 frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
                 frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = RAImg[RAIdx[i]];
                 frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
             }
-            else if(frames[i].transform.position.x + 1.38 == -3.61){
-                //체크! 네개 다 같으면 점수 ++
-                //블록 이미지 불빛 변경
-                //틀리면 블록 이미지 배경 빨강색, 불빛도 빨강색
-                if(LAIdx[i] == UserMotion.leftArmIdx){
-                    
+            else if(frames[i].transform.position.x < character.transform.position.x -0.3f&& frames[i].transform.position.x >= character.transform.position.x-0.7f)
+            {
+
+                if(LAIdx[i] == UserMotion.leftArmIdx%3 && RAIdx[i] == UserMotion.rightArmIdx % 3 && LLIdx[i] == UserMotion.leftLegIdx % 3 && RLIdx[i] == UserMotion.rightLegIdx % 3)
+                {
+                    if(flags[i] == false)
+                    {
+                        matches += 1;
+                        money += 100;
+                        moneytext.text = String.Format("{0:C}", money)+" 만원";
+                        frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+                        if(matches>=5 && matches < 20)
+                        {
+                            level = 1;
+                        }else if(matches >= 20)
+                        {
+                            level = 2;
+                        }
+                    }
+                    flags[i] = true;
+
+                }
+                else
+                {   // ending
+                    frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+                    frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = failBG;
+
+
                 }
 
             }
