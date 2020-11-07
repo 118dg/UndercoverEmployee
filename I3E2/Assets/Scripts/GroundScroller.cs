@@ -29,7 +29,7 @@ public class GroundScroller : MonoBehaviour
                     if (temp.transform.position.x < tiles[q].transform.position.x)
                         temp = tiles[q];
                 }
-                tiles[i].transform.position = new Vector2(temp.transform.position.x + 1, 0.6f);
+                tiles[i].transform.position = new Vector2(temp.transform.position.x + 1, temp.transform.position.y);
                 tiles[i].sprite = groundImg[Random.Range(0, groundImg.Length)];
             }
         }
