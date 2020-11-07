@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df872a12fc8fc24c8cd5fc917f37c2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSound: {fileID: 8300000, guid: 12b0d55ef369884499e6986529511916, type: 3}
+  startSound: {fileID: 8300000, guid: 945c66845b8576944b5949adc1e21548, type: 3}
   btnSound: {fileID: 8300000, guid: caadfa3de02e6d041b856f07fbe360cd, type: 3}
 --- !u!212 &1741908818
 SpriteRenderer:

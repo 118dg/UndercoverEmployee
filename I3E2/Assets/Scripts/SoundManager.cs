@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
 
+	// TODO: 레벨 따라서 속도 조절 
 	public static SoundManager instance;
 
 	public AudioClip[] ThemeMusic = new AudioClip[3];

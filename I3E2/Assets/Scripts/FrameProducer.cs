@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class FrameProducer : MonoBehaviour
 {
+
+
+    private AudioSource mainTheme;
+    public AudioClip mainSound;
+
     public Text moneytext;
     public GameObject[] frames;
     public GameObject character;
@@ -43,6 +48,10 @@ public class FrameProducer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {   
+        this.mainTheme = this.gameObject.AddComponent<AudioSource>();
+        this.mainTheme.clip = this.mainSound;
+        this.mainTheme.loop = true;
+        this.mainTheme.Play();
 
         Ending.SetActive(false);
         end = false;
@@ -148,17 +157,35 @@ public class FrameProducer : MonoBehaviour
     }
 
     public void showEnding(){
+        this.mainTheme.Stop();
         Ending.SetActive(true);
         end = true;
 
         int textChoice = UnityEngine.Random.Range(0, 2);
 
+        //TODO: 이거 글자 뭔가 깨짐
+
         if(money < 3400){
             Ending.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EndingImg[0];
+            if(textChoice == 0){
+                endingText.text = "왹들도 이직을 노린다. \n"+"연봉 "+money+"만원의 중소기업 취업!";
+            }else{
+                endingText.text = "열심히 노력했지만 지구는 녹록치 않았다. \n"+"연봉 "+money+"만원의 중소기업 취업!";
+            }
         }else if(3400<=money && money<8000){
             Ending.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EndingImg[1];
+            if(textChoice == 0){
+                endingText.text = "왹들도 스펙쌓기는 효과를 보장했다. \n"+"연봉 "+money+"만원의 대기업 취업!";
+            }else{
+                endingText.text = "시기를 잘 탔다. \n"+"연봉 "+money+"만원의 대기업 취업!";
+            }
         }else{
             Ending.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EndingImg[2];
+            if(textChoice == 0){
+                endingText.text = "운도 실력이다. \n"+"연봉 "+money+"만원의 여우로운 왹생!";
+            }else{
+                endingText.text = "돈길을 걷다보니 하와이에 도착했다. \n"+"흘러넘치는 재산의 왹생!";
+            }
         }
     }
 }

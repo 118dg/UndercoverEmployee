@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class GroundScroller : MonoBehaviour
 {
+    // TODO: 배경 이미지 슬라이드
+    
     public SpriteRenderer[] tiles;
     public Sprite[] groundImg;
     public float speed;
