@@ -23,7 +23,7 @@ public class FrameProducer : MonoBehaviour
 
     GameObject temp;
 
-    public int level = 0;   // 0 -> 10 matches, 1 -> 10 ~ 20 matches, 2 -> 20 ~ 30 matches;
+    public int level = 0;   // 0 -> 5 matches(10), 1 -> 5 ~ 20 matches(7), 2 -> 20 ~~ matches(4);
     public int matches = 0;
 
 
@@ -42,6 +42,10 @@ public class FrameProducer : MonoBehaviour
             frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
             frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = RAImg[RAIdx[i]];
             frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
+
+            if(i!=0){
+                frames[i].transform.position = new Vector2(temp.transform.position.x + 10, temp.transform.position.y);
+            }
         }
     }
 
@@ -50,6 +54,7 @@ public class FrameProducer : MonoBehaviour
     {
         for(int i=0; i < frames.Length; i++)
         {
+
             if(-10 >= frames[i].transform.position.x)
             {
                 for(int q = 0; q <frames.Length; q++)
@@ -57,8 +62,13 @@ public class FrameProducer : MonoBehaviour
                     if (temp.transform.position.x < frames[q].transform.position.x)
                         temp = frames[q];
                 }
-
-                frames[i].transform.position = new Vector2(temp.transform.position.x + 5, temp.transform.position.y);
+                if(level == 0){   // level에 따라서 등장 간격
+                    frames[i].transform.position = new Vector2(temp.transform.position.x + 10, temp.transform.position.y);
+                }else if(level == 1){
+                    frames[i].transform.position = new Vector2(temp.transform.position.x + 7, temp.transform.position.y);
+                }else if(level == 2){
+                    frames[i].transform.position = new Vector2(temp.transform.position.x + 4, temp.transform.position.y);
+                }
 
                 LAIdx[i] = Random.Range(0, LAImg.Length);
                 RAIdx[i] = Random.Range(0, LAImg.Length);
@@ -69,6 +79,15 @@ public class FrameProducer : MonoBehaviour
                 frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
                 frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = RAImg[RAIdx[i]];
                 frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
+            }
+            else if(frames[i].transform.position.x + 1.38 == -3.61){
+                //체크! 네개 다 같으면 점수 ++
+                //블록 이미지 불빛 변경
+                //틀리면 블록 이미지 배경 빨강색, 불빛도 빨강색
+                if(LAIdx[i] == UserMotion.leftArmIdx){
+                    
+                }
+
             }
         }
 
