@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,9 +9,13 @@ using UnityEngine.SceneManagement;
 public class FrameProducer : MonoBehaviour
 {
 
-
     private AudioSource mainTheme;
-    public AudioClip mainSound;
+    public AudioClip[] mainSound = new AudioClip[3];
+
+    public AudioSource soundEffect;
+    public AudioClip[] successSound = new AudioClip[2];
+    public AudioClip[] failSound = new AudioClip[2];
+
 
     public Text moneytext;
     public GameObject[] frames;
@@ -21,35 +26,39 @@ public class FrameProducer : MonoBehaviour
     public Sprite[] LLImg = new Sprite[3];
     public Sprite[] RLImg = new Sprite[3];
 
-    public Sprite failBG;
+    public Sprite[] holoBG = new Sprite[3];
 
-    public int[] LAIdx = new int [7];
-    public int[] RAIdx = new int [7];
-    public int[] LLIdx = new int [7];
-    public int[] RLIdx = new int [7];
+    int[] LAIdx = new int [7];
+    int[] RAIdx = new int [7];
+    int[] LLIdx = new int [7];
+    int[] RLIdx = new int [7];
 
-    public bool[] flags = new bool[7];
+    bool[] flags = new bool[7];
+    bool[] levelflags = new bool[3];
 
     public float speed;
 
     GameObject temp;
 
     public int level = 0;   // 0 -> 5 matches(10), 1 -> 5 ~ 20 matches(7), 2 -> 20 ~~ matches(4);
-    public int matches = 0;
+    int matches = 0;
     public int money;
 
 
     public GameObject Ending;
     public Sprite[] EndingImg = new Sprite[3];
-    public bool end = false;
+    bool end = false;
     public Text endingText;
-
 
     // Start is called before the first frame update
     void Start()
     {   
         this.mainTheme = this.gameObject.AddComponent<AudioSource>();
-        this.mainTheme.clip = this.mainSound;
+
+        this.soundEffect = this.gameObject.AddComponent<AudioSource>();
+        soundEffect.clip = successSound[0];
+
+        this.mainTheme.clip = mainSound[0];
         this.mainTheme.loop = true;
         this.mainTheme.Play();
 
@@ -62,6 +71,9 @@ public class FrameProducer : MonoBehaviour
 
         for (int i=0;i<frames.Length; i++){
             flags[i] = false;
+        
+            // frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0 ,0, 0.75f);
+            frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[0];
             
             LAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
             RAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
@@ -104,6 +116,8 @@ public class FrameProducer : MonoBehaviour
 
                     flags[i] = false;
                     frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1 ,1);
+                        frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[0];
+                    // frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0 ,0, 0.75f);
 
                     LAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
                     RAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
@@ -114,6 +128,16 @@ public class FrameProducer : MonoBehaviour
                     frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = LLImg[LLIdx[i]];
                     frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sprite = RAImg[RAIdx[i]];
                     frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sprite = RLImg[RLIdx[i]];
+
+
+                    frames[i].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 8;
+                    frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 7;
+                    
                 }
                 else if(frames[i].transform.position.x < character.transform.position.x -0.3f&& frames[i].transform.position.x >= character.transform.position.x-0.7f)
                 {
@@ -126,24 +150,50 @@ public class FrameProducer : MonoBehaviour
                             money += 100;
                             moneytext.text = String.Format("{0:C}", money)+" 만원";
                             frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
+                            frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[1];
+
+                            soundEffect.Play();
+
+                            frames[i].transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(3).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(5).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                            frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
                             
-                            if(matches>=3 && matches < 12)
+                            
+                            if(matches>=3 && matches < 10)
                             {
                                 level = 1;
-                            }else if(matches >= 12)
+
+                                if(levelflags[level] == false){
+                                    this.mainTheme.clip = mainSound[level];
+                                    mainTheme.Play();
+                                }
+                                levelflags[level] = true;
+
+
+                            }else if(matches >= 7)
                             {
                                 level = 2;
-                            }
 
+                                if(levelflags[level] == false){
+                                    this.mainTheme.clip = mainSound[level];
+                                    mainTheme.Play();
+                                }
+                                levelflags[level] = true;
+                                
+                            }
                         }
                         flags[i] = true;
                     }
                     else
                     {   
                         frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
-                        frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = failBG;
+                        frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[2];
 
-                        showEnding();
+                        StartCoroutine("goEnding");
                     }
 
                 }
@@ -156,14 +206,27 @@ public class FrameProducer : MonoBehaviour
         }
     }
 
-    public void showEnding(){
+    IEnumerator goEnding(){
         this.mainTheme.Stop();
+        end = true;
+
+        soundEffect.clip = failSound[0];
+        soundEffect.Play();
+        while(true){
+            yield return new WaitForSeconds(0.7f);
+            if(!soundEffect.isPlaying){
+                break;
+            }
+        }
+        showEnding();
+    }
+
+    public void showEnding(){
+
         Ending.SetActive(true);
         end = true;
 
         int textChoice = UnityEngine.Random.Range(0, 2);
-
-        //TODO: 이거 글자 뭔가 깨짐
 
         if(money < 3400){
             Ending.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EndingImg[0];
