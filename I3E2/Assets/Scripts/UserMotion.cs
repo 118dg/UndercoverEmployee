@@ -30,12 +30,19 @@ public class UserMotion : MonoBehaviour
         leftArmIdx = 0;
         rightArmIdx = 0;
         leftLegIdx = 0;
-        rightArmIdx = 0;
+        rightLegIdx = 0;
 
         leftArmRend = leftArm.GetComponent<SpriteRenderer>();
         rightArmRend = rightArm.GetComponent<SpriteRenderer>();
         leftLegRend = leftLeg.GetComponent<SpriteRenderer>();
         rightLegRend = rightLeg.GetComponent<SpriteRenderer>();
+    }
+
+    public static void reset(){
+        leftArmIdx = 0;
+        rightArmIdx = 0;
+        leftLegIdx = 0;
+        rightLegIdx = 0;
     }
 
     // Update is called once per frame
@@ -47,6 +54,7 @@ public class UserMotion : MonoBehaviour
             if (leftArmIdx % 3 == 0) //왼팔 아래
             {
                 leftArmRend.transform.position = new Vector2(-3.8356f, -1.7318f + 0.42f);
+                leftArmIdx = 0;
             }
             else if (leftArmIdx % 3 == 1) //왼팔 중간
             {
@@ -63,6 +71,7 @@ public class UserMotion : MonoBehaviour
             if (rightArmIdx % 3 == 0) //오른팔 아래
             {
                 rightArmRend.transform.position = new Vector2(-3.305f - 0.03f, -1.713f + 0.44f);
+                rightArmIdx = 0;
             }
             else if (rightArmIdx % 3 == 1) //오른팔 중간
             {
@@ -78,6 +87,7 @@ public class UserMotion : MonoBehaviour
             leftLegRend.sprite = leftLegSprite[(++leftLegIdx) % 3];
             if (leftLegIdx % 3 == 0) //왼다리 아래
             {
+                leftLegIdx = 0;
                 leftLegRend.transform.position = new Vector2(-3.6864f + 0.01f, -2.258f + 0.44f);
             }
             else if (leftLegIdx % 3 == 1) //왼다리 중간
@@ -95,6 +105,7 @@ public class UserMotion : MonoBehaviour
             if (rightLegIdx % 3 == 0) //오른다리 아래
             {
                 rightLegRend.transform.position = new Vector2(-3.4055f, -2.2317f + 0.44f);
+                rightLegIdx = 0;
             }
             else if (rightLegIdx % 3 == 1) //오른다리 중간
             {
