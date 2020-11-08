@@ -62,7 +62,7 @@ public class UserMotion : MonoBehaviour
             rightArmRend.sprite = rightArmSprite[(++rightArmIdx) % 3];
             if (rightArmIdx % 3 == 0) //오른팔 아래
             {
-                rightArmRend.transform.position = new Vector2(-3.305f, -1.713f + 0.44f);
+                rightArmRend.transform.position = new Vector2(-3.305f - 0.03f, -1.713f + 0.44f);
             }
             else if (rightArmIdx % 3 == 1) //오른팔 중간
             {
