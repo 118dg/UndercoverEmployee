@@ -116,7 +116,12 @@ public class FrameProducer : MonoBehaviour
 
                     flags[i] = false;
                     frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1 ,1);
-                        frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[0];
+                    frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[0];
+                    // frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color -= new Color(0,0,0,0.8f);
+
+                    Color color = frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color;
+                    color.a = 1f;
+                    frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color = color;
                     // frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 0 ,0, 0.75f);
 
                     LAIdx[i] = UnityEngine.Random.Range(0, LAImg.Length);
@@ -147,7 +152,13 @@ public class FrameProducer : MonoBehaviour
                         if(flags[i] == false)
                         {
                             matches += 1;
-                            money += 100;
+                            if(level == 0){
+                                money += 100;
+                            }else if(level == 1){
+                                money += 200;
+                            }else{
+                                money += 300;
+                            }
                             moneytext.text = String.Format("{0:C}", money)+" 만원";
                             frames[i].transform.GetChild(4).gameObject.GetComponent<SpriteRenderer>().color = new Color(0, 1, 0);
                             frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sprite = holoBG[1];
@@ -163,7 +174,7 @@ public class FrameProducer : MonoBehaviour
                             frames[i].transform.GetChild(6).gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
                             
                             
-                            if(matches>=3 && matches < 10)
+                            if(matches>=3 && matches < 20)
                             {
                                 level = 1;
 
@@ -174,7 +185,7 @@ public class FrameProducer : MonoBehaviour
                                 levelflags[level] = true;
 
 
-                            }else if(matches >= 7)
+                            }else if(matches >= 20)
                             {
                                 level = 2;
 
@@ -235,7 +246,7 @@ public class FrameProducer : MonoBehaviour
             }else{
                 endingText.text = "열심히 노력했지만 지구는 녹록치 않았다. \n"+"연봉 "+money+"만원의 중소기업 취업!";
             }
-        }else if(3400<=money && money<8000){
+        }else if(3400<=money && money<6000){
             Ending.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = EndingImg[1];
             if(textChoice == 0){
                 endingText.text = "왹들도 스펙쌓기는 효과를 보장했다. \n"+"연봉 "+money+"만원의 대기업 취업!";
