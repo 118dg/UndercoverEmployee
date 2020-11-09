@@ -1,6 +1,6 @@
 # UndercoverEmployee
 
-# <Copyright 2020. I3E2. All rights reserved.>
+<Copyright 2020. I3E2. All rights reserved.>
 
 ## Made by...
 * Programmer: JayC1208, 118dg
