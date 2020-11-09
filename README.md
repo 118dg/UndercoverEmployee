@@ -4,8 +4,8 @@
 
 ## Made by...
 * Programmer: JayC1208, 118dg
-* Music: TeamMate 1
-* Sound: TeamMate 2
+* Music: Yeonjin
+* Sound: TeamMate 1
 
 ## Story
 Alien camouflages human and tries to get employed.
