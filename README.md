@@ -1,9 +1,11 @@
 # UndercoverEmployee
 
+# <Copyright 2020. I3E2. All rights reserved.>
+
 ## Made by...
 * Programmer: JayC1208, 118dg
-* Music: 
-* Sound:
+* Music: TeamMate 1
+* Sound: TeamMate 2
 
 ## Story
 Alien camouflages human and tries to get employed.
