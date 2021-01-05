@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EndingToMain : MonoBehaviour
 {
@@ -30,6 +31,18 @@ public class EndingToMain : MonoBehaviour
     	if(Input.GetKeyDown(KeyCode.Space)){
     		StartCoroutine("changeScene");
     	}
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))   // 다시하기 클릭
+        { 
+            Vector2 mousePos2D = Camera.main.ScreenToWorldPoint(Input.mousePosition);   //마우스 위치 가져오기
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);  
+            if (hit.collider != null)
+            {
+                StartCoroutine("changeScene");
+            }
+
+        }
 
     	if(time <0.5f){
     		GetComponent <SpriteRenderer>().color = new Color(1,1,1,1-time);
