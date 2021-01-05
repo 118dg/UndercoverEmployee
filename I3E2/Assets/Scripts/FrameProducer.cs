@@ -38,6 +38,7 @@ public class FrameProducer : MonoBehaviour
 
     public bool pause = false;
     public GameObject guide;
+    public GameObject exitBtn;
 
     public float speed;
 
@@ -70,6 +71,7 @@ public class FrameProducer : MonoBehaviour
 
         pause = false;
         guide.SetActive(false);
+        exitBtn.SetActive(false);
 
         temp = frames[0];
         money = 1800;
@@ -100,10 +102,11 @@ public class FrameProducer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!end&&Input.GetKeyDown(KeyCode.Space))
+        if (!end&&Input.GetKeyDown(KeyCode.Space)) //스페이스바 누르면 일시정지
         {
             pause = !pause;
             guide.SetActive(pause);
+            exitBtn.SetActive(pause);
         }
         if(!end&&!pause){
             
