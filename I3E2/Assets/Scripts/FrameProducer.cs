@@ -36,7 +36,7 @@ public class FrameProducer : MonoBehaviour
     bool[] flags = new bool[7];
     bool[] levelflags = new bool[3];
 
-    bool pause = false;
+    public bool pause = false;
     public GameObject guide;
 
     public float speed;
@@ -50,7 +50,7 @@ public class FrameProducer : MonoBehaviour
 
     public GameObject Ending;
     public Sprite[] EndingImg = new Sprite[3];
-    bool end = false;
+    public bool end = false;
     public Text endingText;
 
     // Start is called before the first frame update
