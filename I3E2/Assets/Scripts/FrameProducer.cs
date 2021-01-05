@@ -36,6 +36,9 @@ public class FrameProducer : MonoBehaviour
     bool[] flags = new bool[7];
     bool[] levelflags = new bool[3];
 
+    bool pause = false;
+    public GameObject guide;
+
     public float speed;
 
     GameObject temp;
@@ -64,6 +67,9 @@ public class FrameProducer : MonoBehaviour
 
         Ending.SetActive(false);
         end = false;
+
+        pause = false;
+        guide.SetActive(false);
 
         temp = frames[0];
         money = 1800;
@@ -94,7 +100,13 @@ public class FrameProducer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!end){
+        if (!end&&Input.GetKeyDown(KeyCode.Space))
+        {
+            pause = !pause;
+            guide.SetActive(pause);
+        }
+        if(!end&&!pause){
+            
             for(int i=0; i < frames.Length; i++)
             {
 
