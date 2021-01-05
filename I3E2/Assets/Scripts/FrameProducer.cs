@@ -271,7 +271,7 @@ public class FrameProducer : MonoBehaviour
             if(textChoice == 0){
                 endingText.text = "운도 실력이다. \n"+"연봉 "+money+"만원의 여우로운 왹생!";
             }else{
-                endingText.text = "돈길을 걷다보니 하와이에 도착했다. \n"+"흘러넘치는 재산의 왹생!";
+                endingText.text = "돈길을 걷다보니 하와이에 도착했다. \n"+"흘러넘치는 재산("+money+")의 왹생!";
             }
         }
     }
